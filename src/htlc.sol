@@ -122,20 +122,7 @@ contract HTLC is EIP712 {
         address initiator = _hashTypedDataV4(
             keccak256(abi.encode(_INITIATE_TYPEHASH, redeemer, timelock, amount, secretHash))
         ).recover(signature);
-        // let initiate_typehash: b256 = 0x...; // Replace with the actual keccak256 hash of the initiate type
-        // let message = abi_encode((initiate_typehash, redeemer, timelock, amount, secret_hash));
-        // let msg_hash = sha256(message);
-
-        // // Recover the Fuel address
-        // let result_address: Result<Address, EcRecoverError> = ec_recover_address(signature, msg_hash);
-        // if let Ok(address) = result_address {
-        //     log(address.bits());
-        //     // Call the internal initiate function with the recovered address
-        //     // _initiate(address, address, redeemer, timelock, amount, secret_hash);
-        //     true
-        // } else {
-        //     revert(0);
-        // }
+        
         _initiate(initiator, initiator, redeemer, timelock, amount, secretHash);
     }
 
