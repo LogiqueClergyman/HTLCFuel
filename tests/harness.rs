@@ -2,15 +2,15 @@ use fuels::{prelude::*, types::ContractId};
 
 // Load abi from json
 abigen!(Contract(
-    name = "MyContract",
+    name = "HTLC",
     abi = "out/debug/HTLCFuel-abi.json"
 ));
 
-async fn get_contract_instance() -> (MyContract<WalletUnlocked>, ContractId) {
+async fn get_contract_instance() -> (HTLC<WalletUnlocked>, ContractId) {
     // Launch a local network and deploy the contract
     let mut wallets = launch_custom_provider_and_get_wallets(
         WalletsConfig::new(
-            Some(1),             /* Single wallet */
+            Some(4),             /* Four wallets */
             Some(1),             /* Single coin (UTXO) */
             Some(1_000_000_000), /* Amount per coin */
         ),
@@ -30,7 +30,7 @@ async fn get_contract_instance() -> (MyContract<WalletUnlocked>, ContractId) {
     .await
     .unwrap();
 
-    let instance = MyContract::new(id.clone(), wallet);
+    let instance = HTLC::new(id.clone(), wallet);
 
     (instance, id.into())
 }
