@@ -1,15 +1,15 @@
-import { IBitcoinWallet, Urgency } from "@catalogfi/wallets";
+import { type IBitcoinWallet, Urgency } from "@catalogfi/wallets";
 import * as bitcoin from "bitcoinjs-lib";
 import { toHashTree } from "bitcoinjs-lib/src/payments/bip341";
 import { sha256, taggedHash } from "bitcoinjs-lib/src/crypto";
 import * as ecc from "tiny-secp256k1";
 import { generateInternalkey, tweakPubkey } from "./internalKey";
-import { Taptree } from "bitcoinjs-lib/src/types";
+import { type Taptree } from "bitcoinjs-lib/src/types";
 import { LEAF_VERSION } from "./constants";
 import { assert, xOnlyPubkey } from "./utils";
 import { serializeScript, sortLeaves } from "./utils";
 import { htlcErrors } from "./errors";
-import { BitcoinUTXO } from "@catalogfi/wallets/dist/src/lib/bitcoin/provider.interface";
+import { type BitcoinUTXO } from "@catalogfi/wallets";
 
 export enum Leaf {
 	REFUND,

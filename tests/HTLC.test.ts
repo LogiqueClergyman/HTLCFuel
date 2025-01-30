@@ -11,7 +11,7 @@ import { sha256 } from 'fuels';
 
 describe('HTLC Tests', () => {
 
-    let customAssetId: any;
+    let customAssetId: TestAssetId;
     let BTCprovider = new BitcoinProvider(BitcoinNetwork.Regtest, "http://localhost:30000");
     console.log("BTC Node connected");
     let owner: WalletUnlocked;
@@ -27,11 +27,14 @@ describe('HTLC Tests', () => {
 
 
         using launched = await launchTestNode({
+            nodeOptions:{
+                loggingEnabled: true,
+            },
             walletsConfig: {
                 count: 4,
                 assets: [customAssetId],
                 coinsPerAsset: 1,
-                amountPerCoin: 1000,
+                amountPerCoin: 1000000,
             },
             contractsConfigs: [
                 {
@@ -57,6 +60,7 @@ describe('HTLC Tests', () => {
         charlie = wallet4;
         htlcFUEL = contract;
         FUELprovider = provider;
+
         console.log("owner: ", owner.address.toString());
         console.log("alice: ", alice.address.toString());
         console.log("bob: ", bob.address.toString());
@@ -99,15 +103,21 @@ describe('HTLC Tests', () => {
             console.log("Alice initiated in Bitcoin");
 
             // Bob initiates in Fuel
-            htlcFUEL.account = bob;
             console.log("params: ", { bits: alice.address.toB256() }, expiry, toAmount, secretHash);
-            await htlcFUEL.functions.initiate({ bits: alice.address.toB256() }, expiry, toAmount, secretHash).addTransfer(
+            htlcFUEL.account = bob;
+
+            const initiateResponse = await htlcFUEL.functions.initiate({ bits: alice.address.toB256() }, expiry, toAmount, secretHash.toString()).callParams(
                 {
-                    destination: htlcFUEL.id,
-                    amount: toAmount,
-                    assetId: customAssetId.value
+                    // destination: htlcFUEL.id,
+                    // amount: toAmount,
+                    // assetId: customAssetId.value
+                    forward: [toAmount, customAssetId.value]
                 }
             ).call();
+            console.log(initiateResponse);
+            const { logs: initiateLogs, value: initiateValue } = await initiateResponse.waitForResult();
+            console.log("Initiate Logs:", initiateLogs);
+            console.log("Initiate Return Value:", initiateValue);
             console.log("Bob initiated in Fuel");
 
             const secretHashBytes = Buffer.from(secretHash.slice(2), 'hex');

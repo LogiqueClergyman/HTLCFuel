@@ -6,8 +6,8 @@
 
 /*
   Fuels version: 0.98.0
-  Forc version: 0.66.5
-  Fuel-Core version: 0.41.0
+  Forc version: 0.66.6
+  Fuel-Core version: 0.40.0
 */
 
 import { Contract, Interface } from "fuels";
@@ -269,7 +269,7 @@ const abi = {
         }
       ],
       "name": "initiate",
-      "output": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d",
+      "output": "b760f44fa5965c2474a3b471467a22c43185152129295af588b022ae50b50903",
       "attributes": [
         {
           "name": "payable",
@@ -449,6 +449,10 @@ const abi = {
   ],
   "loggedTypes": [
     {
+      "logId": "10098701174489624218",
+      "concreteTypeId": "8c25cb3686462e9a86d2883c5688a22fe738b0bbc85f458d2d2b5f3f667c6d5a"
+    },
+    {
       "logId": "7642187645296980519",
       "concreteTypeId": "6a0e812c60ce32272fec27674115bfb9f4ad3a91d73b6fbb5e0ae33b60a13a22"
     },
@@ -457,12 +461,16 @@ const abi = {
       "concreteTypeId": "b760f44fa5965c2474a3b471467a22c43185152129295af588b022ae50b50903"
     },
     {
-      "logId": "17429166926954047258",
-      "concreteTypeId": "f1e0d6f9f415271a3b3f021e940e5c3b24ba3c3bab4a7d7e35ff36362823392d"
+      "logId": "17696813611398264200",
+      "concreteTypeId": "f597b637c3b0f588fb8d7086c6f4735caa3122b85f0423b82e489f9bb58e2308"
     },
     {
-      "logId": "10098701174489624218",
-      "concreteTypeId": "8c25cb3686462e9a86d2883c5688a22fe738b0bbc85f458d2d2b5f3f667c6d5a"
+      "logId": "1970142151624111756",
+      "concreteTypeId": "1b5759d94094368cfd443019e7ca5ec4074300e544e5ea993a979f5da627261e"
+    },
+    {
+      "logId": "17429166926954047258",
+      "concreteTypeId": "f1e0d6f9f415271a3b3f021e940e5c3b24ba3c3bab4a7d7e35ff36362823392d"
     },
     {
       "logId": "10177942823591106054",
@@ -482,7 +490,7 @@ const abi = {
     {
       "name": "token",
       "concreteTypeId": "c0710b6731b1dd59799cf6bef33eee3b3b04a2e40e80a0724090215bbf2ca974",
-      "offset": 37000
+      "offset": 38280
     }
   ]
 };
@@ -520,7 +528,7 @@ export class HTLCFuel extends Contract {
 
   declare interface: HTLCFuelInterface;
   declare functions: {
-    initiate: InvokeFunction<[redeemer: AddressInput, timelock: BigNumberish, amount: BigNumberish, secret_hash: string], void>;
+    initiate: InvokeFunction<[redeemer: AddressInput, timelock: BigNumberish, amount: BigNumberish, secret_hash: string], boolean>;
     initiate_on_behalf: InvokeFunction<[initiator: AddressInput, redeemer: AddressInput, timelock: BigNumberish, amount: BigNumberish, secret_hash: string], void>;
     initiate_with_signature: InvokeFunction<[redeemer: AddressInput, timelock: BigNumberish, amount: BigNumberish, secret_hash: string, signature: Bytes], void>;
     instant_refund: InvokeFunction<[order_ID: string, signature: Bytes], void>;

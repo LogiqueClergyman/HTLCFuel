@@ -1,5 +1,5 @@
 import { exec } from "child_process";
-import { IBitcoinProvider } from "@catalogfi/wallets";
+import { type IBitcoinProvider } from "@catalogfi/wallets";
 
 export class regTestUtils {
 	static async mine(blocks: number, provider: IBitcoinProvider) {

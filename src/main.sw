@@ -41,8 +41,8 @@ storage {
     payments: StorageMap<Address, u256> = StorageMap {},
     // _INITIATE_TYPEHASH: b256 = keccak256("Initiate(address redeemer,uint256 timelock,uint256 amount,bytes32 secretHash)"),
     // _REFUND_TYPEHASH: b256 = keccak256("Refund(bytes32 orderId)"),
-    _INITIATE_TYPEHASH:b256 = ZERO_B256,
-    _REFUND_TYPEHASH:b256 = ZERO_B256,
+    _INITIATE_TYPEHASH: b256 = ZERO_B256,
+    _REFUND_TYPEHASH: b256 = ZERO_B256,
 }
 
 configurable {
@@ -61,12 +61,14 @@ enum UnsafeTransfer {
 }
 
 fn safe_params(redeemer: Address, timelock: u256, amount: u256) -> Result<(), UnsafeParams> {
+    log("Checking params: ");
     require(
         redeemer != Address::zero(),
         UnsafeParams::ZeroAddressRedeemer,
     );
     require(timelock > 0, UnsafeParams::ZeroTimelock);
     require(amount > 0, UnsafeParams::ZeroAmount);
+    log("Params are safe");
     Ok(())
 }
 #[storage(read, write)]
@@ -89,7 +91,7 @@ abi HTLC {
         timelock: u256,
         amount: u256,
         secret_hash: b256,
-    );
+    ) -> bool;
     #[payable, storage(read, write)]
     fn initiate_on_behalf(
         initiator: Address,
@@ -126,8 +128,12 @@ impl HTLC for Contract {
         timelock: u256,
         amount: u256,
         secret_hash: b256,
-    ) {
+    ) -> bool {
         require(safe_params(redeemer, timelock, amount).is_ok(), true);
+        log("Initiated with params: ");
+        log(redeemer);
+        log(timelock);
+        log(amount);
         let asset_id = msg_asset_id();
         let msg_amount = u256::from(msg_amount());
         let msg_sender = match msg_sender() {
@@ -146,6 +152,7 @@ impl HTLC for Contract {
             amount,
             secret_hash,
         );
+        true
     }
 
     #[payable, storage(read, write)]
@@ -186,7 +193,8 @@ impl HTLC for Contract {
         signature: Bytes,
     ) {
         require(safe_params(redeemer, timelock, amount).is_ok(), true);
-        let hash = storage._INITIATE_TYPEHASH.try_read().unwrap();        let encoded = core::codec::encode((hash, redeemer, timelock, amount, secret_hash));
+        let hash = storage._INITIATE_TYPEHASH.try_read().unwrap();
+        let encoded = core::codec::encode((hash, redeemer, timelock, amount, secret_hash));
         let hashed = keccak256(Bytes::from(encoded));
         let MSG_HASH = <b256 as From<Bytes>>::from(Bytes::from(hashed));
 
