@@ -1,4 +1,4 @@
-import { test, describe, beforeAll } from 'bun:test';
+import { test, describe, beforeAll, afterAll } from 'bun:test';
 import { expect } from 'chai';
 import { launchTestNode, TestAssetId } from 'fuels/test-utils';
 import { HTLCFuel, HTLCFuelFactory } from '../contracts';
@@ -21,12 +21,13 @@ describe('HTLC Tests', () => {
 
     let htlcFUEL: HTLCFuel;
     let FUELprovider: any;
+    let cleanup: () => void;
+
     beforeAll(async () => {
 
         customAssetId = TestAssetId.random()[0];
 
-
-        using launched = await launchTestNode({
+        const launched = await launchTestNode({
             nodeOptions:{
                 loggingEnabled: true,
             },
@@ -54,6 +55,7 @@ describe('HTLC Tests', () => {
             contracts: [contract],
             provider,
         } = launched;
+        cleanup = launched.cleanup;
         owner = wallet1;
         alice = wallet2;
         bob = wallet3;
@@ -72,6 +74,10 @@ describe('HTLC Tests', () => {
 
 
         // Add your test assertions here
+    });
+
+    afterAll(async () => {
+        cleanup();
     });
 
     describe('BTC <-> FUEL', () => {
