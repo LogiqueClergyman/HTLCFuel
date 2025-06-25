@@ -160,7 +160,7 @@ describe('HTLC Tests', () => {
             // expect(tx.txid).to.be.eq(redeemId);
             // expect(tx.vout[0].scriptpubkey_address).to.be.eq(await bobBitcoinWallet.getAddress());
 
-        }, { timeout: 1000000 })
+        }, { timeout: 5000 })
 
         // test("Should be able to swap FUEL for BTC", async () => {
         //     const alicePubkey = await aliceBitcoinWallet.getPublicKey();

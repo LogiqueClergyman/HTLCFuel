@@ -78,8 +78,8 @@ fn safe_transfer_from(
     amount: u256,
     msg_amount: u256,
 ) -> Result<(), UnsafeTransfer> {
-    require(asset_id != token, UnsafeTransfer::InvalidAsset);
-    require(amount != msg_amount, UnsafeTransfer::InvalidAmount);
+    require(asset_id == token, UnsafeTransfer::InvalidAsset);
+    require(amount == msg_amount, UnsafeTransfer::InvalidAmount);
     storage.payments.insert(sender, msg_amount);
     Ok(())
 }

@@ -24,9 +24,9 @@ export class regTestUtils {
 	/**
 	 * funds the address with 1 BTC
 	 */
-  static async fund(address: string, provider: IBitcoinProvider) {
+	static async fund(address: string, provider: IBitcoinProvider) {
 		const balance = await provider.getBalance(address);
-		exec(`nigiri faucet ${address}`, async (error, stdout, stderr) => {
+		exec(`wsl.exe /mnt/c/merry/merry.exe faucet --to ${address}`, async (error, stdout, stderr) => {
 			if (error) {
 				throw error;
 			}

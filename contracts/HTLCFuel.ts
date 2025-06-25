@@ -469,10 +469,6 @@ const abi = {
       "concreteTypeId": "1b5759d94094368cfd443019e7ca5ec4074300e544e5ea993a979f5da627261e"
     },
     {
-      "logId": "13866877265493744985",
-      "concreteTypeId": "c0710b6731b1dd59799cf6bef33eee3b3b04a2e40e80a0724090215bbf2ca974"
-    },
-    {
       "logId": "17429166926954047258",
       "concreteTypeId": "f1e0d6f9f415271a3b3f021e940e5c3b24ba3c3bab4a7d7e35ff36362823392d"
     },
@@ -494,7 +490,7 @@ const abi = {
     {
       "name": "token",
       "concreteTypeId": "c0710b6731b1dd59799cf6bef33eee3b3b04a2e40e80a0724090215bbf2ca974",
-      "offset": 39248
+      "offset": 38616
     }
   ]
 };
